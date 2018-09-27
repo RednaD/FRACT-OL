@@ -6,7 +6,7 @@
 /*   By: arusso <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/15 12:38:15 by arusso            #+#    #+#             */
-/*   Updated: 2018/09/17 17:51:14 by arusso           ###   ########.fr       */
+/*   Updated: 2018/09/27 18:05:48 by arusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	update_display(int key, t_global *g)
 	if (key == UP || key == DOWN)
 		g->rv2 = (key == UP ? g->rv2 - 5 : g->rv2 + 5);
 	if (key == LEFT || key == RIGHT)
-		g->rv1 = (key == LEFT ? g->rv1 + 5 : g->rv1 - 5);
+		g->rv1 = (key == LEFT ? g->rv1 - 5 : g->rv1 + 5);
 	if (key == MULTIPLY || (key == DIVIDE && g->it_max > 0))
 		g->it_max = (key == MULTIPLY ? g->it_max + 50 : g->it_max - 50);
 	if (key == PLUS || key == MINUS)
@@ -91,6 +91,8 @@ void	update_display(int key, t_global *g)
 
 int		key_handle(int key, t_global *g)
 {
+	char *tmp;
+
 	if (key == ESCAPE)
 		exit(0);
 	update_display(key, g);
@@ -99,10 +101,12 @@ int		key_handle(int key, t_global *g)
 	draw(g);
 	if (ft_strequ(g->name, "julia"))
 	{
-		mlx_string_put(g->mlx, g->win, WIDTH - 70, 10,
-				g->color, ft_flotoa(g->v1));
-		mlx_string_put(g->mlx, g->win, WIDTH - 70, 30,
-				g->color, ft_flotoa(g->v2));
+		tmp = ft_flotoa(g->v1);
+		mlx_string_put(g->mlx, g->win, WIDTH - 70, 10, g->color, tmp);
+		free (tmp);
+		tmp = ft_flotoa(g->v2);
+		mlx_string_put(g->mlx, g->win, WIDTH - 70, 30, g->color, tmp);
+		free (tmp);
 	}
 	return (0);
 }
