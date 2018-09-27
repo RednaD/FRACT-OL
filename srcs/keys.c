@@ -6,7 +6,7 @@
 /*   By: arusso <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/15 12:38:15 by arusso            #+#    #+#             */
-/*   Updated: 2018/09/27 18:05:48 by arusso           ###   ########.fr       */
+/*   Updated: 2018/09/27 18:30:07 by arusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,10 @@ int		key_handle(int key, t_global *g)
 	{
 		tmp = ft_flotoa(g->v1);
 		mlx_string_put(g->mlx, g->win, WIDTH - 70, 10, g->color, tmp);
-		free (tmp);
+		free(tmp);
 		tmp = ft_flotoa(g->v2);
 		mlx_string_put(g->mlx, g->win, WIDTH - 70, 30, g->color, tmp);
-		free (tmp);
+		free(tmp);
 	}
 	return (0);
 }

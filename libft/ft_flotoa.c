@@ -6,7 +6,7 @@
 /*   By: arusso <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/17 16:43:25 by arusso            #+#    #+#             */
-/*   Updated: 2018/09/27 18:28:12 by arusso           ###   ########.fr       */
+/*   Updated: 2018/09/27 18:30:47 by arusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static void	ft_free(char *str1, char *str2)
 {
-	free (str1);
-	free (str2);
+	free(str1);
+	free(str2);
 }
 
 char		*ft_flotoa(long double dbl)
@@ -36,7 +36,7 @@ char		*ft_flotoa(long double dbl)
 	tmp = dest;
 	dec = ft_itoa(i);
 	dest = ft_strjoin(dest, dec);
-	free (tmp);
+	free(tmp);
 	tmp = dest;
 	dest = ft_strjoin(dest, ",");
 	ft_free(tmp, dec);
