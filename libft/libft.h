@@ -6,7 +6,7 @@
 /*   By: arusso <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 17:04:44 by arusso            #+#    #+#             */
-/*   Updated: 2018/09/17 17:22:47 by arusso           ###   ########.fr       */
+/*   Updated: 2018/10/06 15:45:38 by arusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,6 @@ void			ft_error(char *str);
 void			ft_getleaks(char *str);
 int				get_next_line(int fd, char **line);
 char			*ft_flotoa(long double dbl);
+int				ft_between(int a, int b, int c);
 
 #endif

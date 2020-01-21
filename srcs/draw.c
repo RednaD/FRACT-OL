@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mandelia.c                                         :+:      :+:    :+:   */
+/*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arusso <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/14 15:41:42 by arusso            #+#    #+#             */
-/*   Updated: 2018/09/17 17:49:32 by arusso           ###   ########.fr       */
+/*   Created: 2018/10/01 14:44:03 by arusso            #+#    #+#             */
+/*   Updated: 2018/10/06 16:23:39 by arusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fractol.h"
 
-int		get_val_bur(long double x1, long double y1, t_global *g)
+static int	get_val_bur(long double x1, long double y1, t_global *g)
 {
 	double		r;
 	double		im;
@@ -32,7 +32,7 @@ int		get_val_bur(long double x1, long double y1, t_global *g)
 	return (it);
 }
 
-int		get_val_mandelia(long double x1, long double y1, t_global *g)
+static int	get_val_mandelia(long double x1, long double y1, t_global *g)
 {
 	long double	r;
 	long double	ri;
@@ -59,12 +59,26 @@ int		get_val_mandelia(long double x1, long double y1, t_global *g)
 	return (it);
 }
 
-void	draw(t_global *g)
+static int	get_thread_id(pthread_t id, pthread_t *thread)
 {
-	t_local	l;
+	int i;
 
-	l.x = 0.0;
-	while (l.x < g->max_x)
+	i = 0;
+	while (i < THREAD && !pthread_equal(id, thread[i]))
+		i++;
+	return (i);
+}
+
+static void	*draw_thread(void *g_data)
+{
+	t_global	*g;
+	t_local		l;
+
+	g = (t_global*)g_data;
+	l.padding = WIN_SIZE / THREAD;
+	l.x = get_thread_id(pthread_self(), g->thread) * l.padding;
+	l.x_end = l.x + l.padding + 1;
+	while (l.x < g->max_y && l.x < l.x_end)
 	{
 		l.y = 0.0;
 		while (l.y < g->max_y)
@@ -75,10 +89,23 @@ void	draw(t_global *g)
 				l.val = get_val_mandelia(l.x1, l.y1, g);
 			else
 				l.val = get_val_bur(l.x1, l.y1, g);
-			((int*)g->data)[(int)(l.x + l.y * WIDTH)] = g->color * l.val;
+			((int*)g->data)[(int)(l.x + l.y * WIN_SIZE)] = g->color * l.val;
 			l.y++;
 		}
 		l.x++;
 	}
+	pthread_exit(NULL);
+}
+
+void		draw(t_global *g)
+{
+	int		i;
+
+	i = -1;
+	while (++i < THREAD)
+		pthread_create(&g->thread[i], NULL, draw_thread, g);
+	i = -1;
+	while (++i < THREAD)
+		pthread_join(g->thread[i], NULL);
 	mlx_put_image_to_window(g->mlx, g->win, g->img, 0, 0);
 }

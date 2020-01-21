@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   put_keycode.c                                      :+:      :+:    :+:   */
+/*   keys.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arusso <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/15 12:38:15 by arusso            #+#    #+#             */
-/*   Updated: 2018/09/27 18:30:07 by arusso           ###   ########.fr       */
+/*   Created: 2018/10/06 15:47:45 by arusso            #+#    #+#             */
+/*   Updated: 2018/10/16 14:59:40 by arusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,16 @@ int		key_move(int x, int y, t_global *g)
 
 int		zoom(int key, int x, int y, t_global *g)
 {
-	if (key == 2 || key == 5)
+	if ((key == 2 || key == 5) && ft_between(0, x, WIN_SIZE) \
+			&& ft_between(0, y, WIN_SIZE))
 	{
 		g->nb_zoom--;
 		g->zoom /= 1.5;
 		g->rv1 -= ((x - g->rv1) / 1.5) - (x - g->rv1);
 		g->rv2 += ((g->rv2 - y) / 1.5) - (g->rv2 - y);
 	}
-	else if (key == 1 || key == 4)
+	else if ((key == 1 || key == 4) && ft_between(0, x, WIN_SIZE) \
+			&& ft_between(0, y, WIN_SIZE))
 	{
 		g->nb_zoom++;
 		g->zoom *= 1.5;
@@ -97,15 +99,15 @@ int		key_handle(int key, t_global *g)
 		exit(0);
 	update_display(key, g);
 	mlx_clear_window(g->mlx, g->win);
-	ft_memset(g->data, 0, sizeof(int) * WIDTH * HEIGHT);
+	ft_memset(g->data, 0, sizeof(int) * WIN_SIZE * WIN_SIZE);
 	draw(g);
 	if (ft_strequ(g->name, "julia"))
 	{
 		tmp = ft_flotoa(g->v1);
-		mlx_string_put(g->mlx, g->win, WIDTH - 70, 10, g->color, tmp);
+		mlx_string_put(g->mlx, g->win, WIN_SIZE - 70, 10, WHITE, tmp);
 		free(tmp);
 		tmp = ft_flotoa(g->v2);
-		mlx_string_put(g->mlx, g->win, WIDTH - 70, 30, g->color, tmp);
+		mlx_string_put(g->mlx, g->win, WIN_SIZE - 70, 30, WHITE, tmp);
 		free(tmp);
 	}
 	return (0);

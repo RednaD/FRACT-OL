@@ -6,7 +6,7 @@
 #    By: arusso <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/05 15:27:09 by arusso            #+#    #+#              #
-#    Updated: 2018/09/11 15:52:00 by arusso           ###   ########.fr        #
+#    Updated: 2018/10/16 15:28:16 by arusso           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = fractol
 
 CC = gcc
 CFLAGS =  -Wall -Werror -Wextra
-MLXFLAGS = -framework OpenGL -framework AppKit
+MLXFLAGS = -framework OpenGL -framework AppKit -lpthread -D_REENTRANT
 
 SRC_PATH = ./srcs/
 SRC_NAME = main.c draw.c keys.c
@@ -32,22 +32,24 @@ LIBRARY_PATH = ./mlx/
 LIBRARY_NAME = libmlx.a
 LIBRARY = $(addprefix $(LIBRARY_PATH), $(LIBRARY_NAME))
 
-OBJ = $(SRC_NAME:.c=.o)
+OBJ = @$(SRC_NAME:.c=.o)
+
+.PHONY : all, clean, fclean, re
 
 all : $(NAME)
 
 $(NAME) :
-	make -C libft
-	make -C mlx
-	$(CC) $(CFLAGS) $(MLXFLAGS) $(SRC) $(HEADER) $(LIBRARY) -o $(NAME)
+	@make -C libft
+	@make -C mlx
+	@$(CC) $(CFLAGS) $(MLXFLAGS) $(SRC) $(HEADER) $(LIBRARY) -o $(NAME)
 
 clean :
-	make clean -C libft
-	make clean -C mlx
-	rm -f $(OBJ)
+	@make clean -C libft
+	@make clean -C mlx
+	@rm -f $(OBJ)
 
 fclean : clean
-	make fclean -C libft
-	rm -f $(NAME)
+	@make fclean -C libft
+	@rm -f $(NAME)
 
 re : fclean all

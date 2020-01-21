@@ -6,7 +6,7 @@
 /*   By: arusso <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 14:32:41 by arusso            #+#    #+#             */
-/*   Updated: 2018/09/17 17:49:01 by arusso           ###   ########.fr       */
+/*   Updated: 2018/10/06 16:28:06 by arusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <mlx.h>
+# include <pthread.h>
 # include <math.h>
 
-# define WIDTH 900
-# define HEIGHT 900
+# define WIN_SIZE 900
+# define THREAD 10
 # define JULIA_R 0.0
 # define JULIA_IM 0.0
 # define WHITE 0x00FFFFFF
@@ -46,10 +47,12 @@
 typedef struct		s_local
 {
 	long double	x;
+	long double	x_end;
 	long double	y;
 	long double	x1;
 	long double	y1;
 	long double val;
+	long double	padding;
 }					t_local;
 
 typedef struct		s_global
@@ -75,6 +78,7 @@ typedef struct		s_global
 	int				bpp;
 	int				endian;
 	int				line;
+	pthread_t		thread[THREAD];
 }					t_global;
 
 int					key_move(int x, int y, t_global *lst);

@@ -6,7 +6,7 @@
 /*   By: arusso <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/15 15:28:03 by arusso            #+#    #+#             */
-/*   Updated: 2018/09/27 16:05:44 by arusso           ###   ########.fr       */
+/*   Updated: 2018/10/06 16:23:18 by arusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ void	get_start_values(t_global *g)
 {
 	g->color = START_COLOR;
 	g->move = 0;
-	g->max_x = WIDTH;
-	g->max_y = HEIGHT;
-	g->rv1 = WIDTH / 2;
-	g->rv2 = HEIGHT / 2;
+	g->max_x = WIN_SIZE;
+	g->max_y = WIN_SIZE;
+	g->rv1 = WIN_SIZE / 2;
+	g->rv2 = WIN_SIZE / 2;
 	g->nb_zoom = 1;
 	g->v1 = JULIA_R;
 	g->v2 = JULIA_IM;
@@ -47,8 +47,8 @@ void	get_start_values(t_global *g)
 void	init_global(t_global *g)
 {
 	g->mlx = mlx_init();
-	g->win = mlx_new_window(g->mlx, WIDTH, HEIGHT, "Fract'ol");
-	g->img = mlx_new_image(g->mlx, WIDTH, HEIGHT);
+	g->win = mlx_new_window(g->mlx, WIN_SIZE, WIN_SIZE, "Fract'ol");
+	g->img = mlx_new_image(g->mlx, WIN_SIZE, WIN_SIZE);
 	g->data = (unsigned int*)mlx_get_data_addr(g->img,
 			&g->bpp, &g->line, &g->endian);
 	get_start_values(g);
